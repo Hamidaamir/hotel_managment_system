@@ -5,18 +5,23 @@ import LoginPage from "./pages/LoginPage";
 import Layout from "./Layout";
 import RegisterPage from "./pages/Registerpage";
 import axios from "axios";
+import { UserContextProvider } from "./UserContext";
+import { useEffect } from "react";
 
 axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Indexpage />} />
-        <Route path="/Login" element={<LoginPage />}></Route>
-        <Route path="/register" element={<RegisterPage />}></Route>
-      </Route>
-    </Routes>
+    <UserContextProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Indexpage />} />
+          <Route path="/Login" element={<LoginPage />}></Route>
+          <Route path="/register" element={<RegisterPage />}></Route>
+        </Route>
+      </Routes>
+    </UserContextProvider>
   );
 }
 
