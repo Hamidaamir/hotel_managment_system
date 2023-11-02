@@ -20,7 +20,18 @@ app.use(
   })
 );
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose
+  .connect("mongodb://0.0.0.0:27017/resortsConnect", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log(err);
+    console.log("Connection Failed");
+  });
 
 app.get("/test", (req, res) => {
   res.json("test ok");
@@ -68,12 +79,24 @@ app.get("/profile", (req, res) => {
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      const { name, email, _id } = await User.findById(userData.id);
-      res.json({ name, email, _id });
+      if (err) {
+        res.status(401).json("Authentication failed");
+        return;
+      }
+      try {
+        const user = await User.findById(userData.id);
+        if (user) {
+          const { name, email, _id } = user;
+          res.json({ name, email, _id });
+        } else {
+          res.status(404).json("User not found");
+        }
+      } catch (error) {
+        res.status(500).json("Internal server error");
+      }
     });
   } else {
-    res.json(null);
+    res.status(401).json("Authentication required");
   }
 });
 app.listen(4000);
