@@ -99,4 +99,9 @@ app.get("/profile", (req, res) => {
     res.status(401).json("Authentication required");
   }
 });
+
+app.post("/logOut", (req, res) => {
+  res.cookie("token", "").json(true);
+});
+
 app.listen(4000);
