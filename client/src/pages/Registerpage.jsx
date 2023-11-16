@@ -55,7 +55,7 @@ export default function RegisterPage() {
             value={name}
             onChange={(ev) => {
               setName(ev.target.value);
-              setNameError(""); // Clear the error when input changes
+              setNameError("");
             }}
           />
           {nameError && <div className="text-red-500">{nameError}</div>}
