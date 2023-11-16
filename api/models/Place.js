@@ -1,4 +1,4 @@
-const mongoose = requre("mongoose");
+const mongoose = require("mongoose");
 
 const placeSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -8,8 +8,8 @@ const placeSchema = new mongoose.Schema({
   description: String,
   perks: [String],
   extraInfo: String,
-  checkIn: Number,
-  checkOut: Number,
+  checkIn: Date,
+  checkOut: Date,
   maxGuests: Number,
 });
 
