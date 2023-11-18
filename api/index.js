@@ -11,6 +11,8 @@ const Place = require("./models/Place.js");
 const fs = require("fs");
 require("dotenv").config();
 const app = express();
+require("./database.js");
+const placeFactory = require("./placeFactory.js").createPlace;
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
@@ -30,27 +32,15 @@ app.use(
   })
 );
 
-//database connection
-mongoose
-  .connect("mongodb://0.0.0.0:27017/resortsConnect", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-    console.log("Connection Failed");
-  });
-
-app.get("/test", (req, res) => {
-  res.json("test ok");
-});
-
 //register user
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
+
+  // Check if the user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(409).json("Email already in use");
+  }
 
   try {
     const userDoc = await User.create({
@@ -58,9 +48,10 @@ app.post("/register", async (req, res) => {
       email,
       password: bcrypt.hashSync(password, bcryptSalt),
     });
-    res.json(userDoc);
+    res.status(200).json(userDoc);
   } catch (e) {
-    res.status(422).json(e);
+    console.error(e);
+    res.status(500).json("Internal server error");
   }
 });
 
@@ -68,23 +59,24 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const userDoc = await User.findOne({ email });
-  if (userDoc) {
-    const passOk = bcrypt.compareSync(password, userDoc.password);
-    if (passOk) {
-      jwt.sign(
-        { email: userDoc.email, id: userDoc._id },
-        jwtSecret,
-        {},
-        (err, token) => {
-          if (err) throw err;
-          res.cookie("token", token).json(userDoc);
-        }
-      );
-    } else {
-      res.status(422).json("Pass Not Ok");
-    }
+
+  if (!userDoc) {
+    return res.status(404).json("User not found");
+  }
+
+  const passOk = bcrypt.compareSync(password, userDoc.password);
+  if (passOk) {
+    jwt.sign(
+      { email: userDoc.email, id: userDoc._id },
+      jwtSecret,
+      {},
+      (err, token) => {
+        if (err) throw err;
+        res.cookie("token", token).json(userDoc);
+      }
+    );
   } else {
-    res.json("not found");
+    res.status(422).json("Pass Not Ok");
   }
 });
 
@@ -173,6 +165,7 @@ app.post("/upload", photosMiddleware.array("photos", 100), (req, res) => {
   res.json(uploadedFiles);
 });
 
+//add place
 app.post("/places", (req, res) => {
   const { token } = req.cookies;
   const {
@@ -189,19 +182,20 @@ app.post("/places", (req, res) => {
   } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
-    const placeDoc = await Place.create({
-      owner: userData.id,
+    const place = placeFactory(
+      userData.id,
       title,
       address,
-      photos: addedPhotos,
+      addedPhotos,
       description,
       perks,
       extraInfo,
       checkIn,
       checkOut,
       maxGuests,
-      price,
-    });
+      price
+    );
+    const placeDoc = await place.save();
     res.json(placeDoc);
   });
 });
@@ -261,4 +255,6 @@ app.get("/places", async (req, res) => {
   res.json(await Place.find());
 });
 
-app.listen(4000);
+const server = app.listen(4000);
+
+module.exports = { app, server };
