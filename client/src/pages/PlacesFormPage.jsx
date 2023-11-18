@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function PlacesFormPage() {
-  const { id } = useParams;
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [addedPhotos, setAddedPhotos] = useState([]);
@@ -22,7 +22,18 @@ export default function PlacesFormPage() {
       return;
     }
 
-    axios.get("/places/" + id);
+    axios.get("/places/" + id).then((response) => {
+      const { data } = response;
+      setTitle(data.title);
+      setAddress(data.address);
+      setAddedPhotos(data.photos);
+      setDescription(data.description);
+      setPerks(data.perks);
+      setExtraInfo(data.extraInfo);
+      setCheckIn(data.checkIn ? data.checkIn.slice(0, 10) : "");
+      setCheckOut(data.checkOut ? data.checkOut.slice(0, 10) : "");
+      setMaxGuests(data.maxGuests);
+    });
   }, [id]);
   function inputHeader(text, isBold) {
     const headerClass = isBold ? "font-bold text-2xl mt-4" : "text-2xl mt-4";
@@ -42,9 +53,9 @@ export default function PlacesFormPage() {
     );
   }
 
-  async function addnewPlace(ev) {
+  async function savePlace(ev) {
     ev.preventDefault();
-    await axios.post("/places", {
+    const placeData = {
       title,
       address,
       addedPhotos,
@@ -54,8 +65,19 @@ export default function PlacesFormPage() {
       checkIn,
       checkOut,
       maxGuests,
-    });
-    setRedirect(true);
+    };
+    if (id) {
+      //update
+      await axios.put("/places/", {
+        id,
+        ...placeData,
+      });
+      setRedirect(true);
+    } else {
+      //new place
+      await axios.post("/places", placeData);
+      setRedirect(true);
+    }
   }
 
   if (redirect) {
@@ -65,7 +87,7 @@ export default function PlacesFormPage() {
   return (
     <div>
       <AccountNav />
-      <form onSubmit={addnewPlace}>
+      <form onSubmit={savePlace}>
         {preInput("Title", "Title For your place should be short and catchy")}
         <input
           type="text"
