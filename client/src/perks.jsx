@@ -10,7 +10,12 @@ export default function perks({ selected, onChange }) {
   return (
     <>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" name="Wifi" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={selected.includes("Wifi")}
+          name="Wifi"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -31,6 +36,7 @@ export default function perks({ selected, onChange }) {
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
         <input
           type="checkbox"
+          checked={selected.includes("Free parking spot")}
           name="Free parking spot"
           onChange={handleCbClick}
         />
@@ -52,7 +58,12 @@ export default function perks({ selected, onChange }) {
         <span>Free parking spot</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" name="TV" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={selected.includes("TV")}
+          name="TV"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -71,7 +82,12 @@ export default function perks({ selected, onChange }) {
         <span>TV</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" name="Pets" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={selected.includes("Pets")}
+          name="Pets"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -92,6 +108,7 @@ export default function perks({ selected, onChange }) {
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
         <input
           type="checkbox"
+          checked={selected.includes("Private enterance")}
           name="Private enterance"
           onChange={handleCbClick}
         />
