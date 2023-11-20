@@ -37,9 +37,13 @@ export default function RegisterPage() {
           password,
         });
         alert("Registration Successful. Now you can Login");
-      } catch (e) {
-        alert("Registration Failed. Please try again Later");
-        console.log(e);
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          alert("Registration Failed. Email already exists.");
+        } else {
+          alert("Registration Failed. Please try again Later");
+        }
+        console.log(error);
       }
     }
   }
