@@ -5,7 +5,9 @@ import PerksComponent from "../perks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+//places input form to register places
 export default function PlacesFormPage() {
+  //places fields
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
@@ -23,6 +25,7 @@ export default function PlacesFormPage() {
       return;
     }
 
+    //api integration
     axios.get("/places/" + id).then((response) => {
       const { data } = response;
       setTitle(data.title);
@@ -129,7 +132,7 @@ export default function PlacesFormPage() {
 
         <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
           <div>
-            <h3 className="mt-2 mb-1">Check in time</h3>
+            <h3 className="mt-2 mb-1">Check in Date</h3>
             <input
               type="date"
               value={checkIn}
@@ -138,7 +141,7 @@ export default function PlacesFormPage() {
             />
           </div>
           <div className="mt-2 mb-1">
-            <h3>Check out time</h3>
+            <h3>Check out Date</h3>
             <input
               type="date"
               value={checkOut}

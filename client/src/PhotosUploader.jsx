@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
+//function to upload photos through link and device
 export default function PhotosUploader({ addedPhotos, onChange }) {
   const [photolink, setPhotoLink] = useState("");
   async function addPhotosByLink(ev) {

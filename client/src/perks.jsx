@@ -1,3 +1,5 @@
+//perks components exported in main input page
+
 export default function perks({ selected, onChange }) {
   function handleCbClick(ev) {
     const { checked, name } = ev.target;

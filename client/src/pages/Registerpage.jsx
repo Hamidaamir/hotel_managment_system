@@ -30,6 +30,7 @@ export default function RegisterPage() {
     }
 
     if (isValid) {
+      //api integration
       try {
         await axios.post("/register", {
           name,

@@ -11,6 +11,8 @@ export default function LoginPage() {
   const { setUser } = useContext(UserContext);
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
+
+    //api integration
     try {
       const { data } = await axios.post("/login", { email, password });
       setUser(data);
