@@ -16,7 +16,7 @@ export default function BookingsPage() {
   return (
     <div>
       <AccountNav />
-      <div>
+      <div className="flex gap-2">
         {bookings?.length > 0 &&
           bookings.map((booking) => (
             <div
@@ -24,7 +24,7 @@ export default function BookingsPage() {
               className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden"
             >
               <div className="w-48">
-                Idher hotel pinned picture honi chahiya thi lekin nae a rahi
+                Idher hotel ki pinned picture honi chahiya thi lekin nae a rahi
                 <PlaceImg place={booking.place} />
               </div>
               <div className="py-3 pr-3 grow">
