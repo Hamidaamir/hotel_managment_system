@@ -1,10 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import BookingWidget from "../pages/BookingWidget.jsx";
+import PlaceGallery from "./PlaceGallery.jsx";
+import AddressLink from "./AddressLink.jsx";
 
 export default function PlacePage() {
   const { id } = useParams();
   const [place, setPlace] = useState(null);
+
   useEffect(() => {
     if (!id) {
       return;
@@ -14,49 +18,33 @@ export default function PlacePage() {
     });
   }, [id]);
 
-  if (!place) return "";
+  if (!place) return null; // Return null instead of an empty string
 
   return (
-    <div className="mt-4 bg-gray-100 -mx-8 px-8 py-8">
+    <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
       <h1 className="text-3xl">{place.title}</h1>
-      <a
-        className="my-2 block font-semibold underline"
-        target="_blank"
-        href={"https://maps.google.com/?q=+" + place.address}
-      >
-        {place.address}
-      </a>
-      <div className="grid gap-2 grid-cols-[2fr_1fr]">
+      <AddressLink>{place.address}</AddressLink>
+      <PlaceGallery place={place} />
+      <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-2[2fr_1fr">
         <div>
-          {place.photos?.[0] && (
-            <div>
-              <img
-                className="aspect-square object-cover"
-                src={"http://localhost:4000/uploads/" + place.photos[0]}
-                alt=""
-              />
-            </div>
-          )}
-        </div>
-        <div className="grid">
-          {place.photos?.[1] && (
-            <img
-              className="aspect-square object-cover"
-              src={"http://localhost:4000/uploads/" + place.photos[1]}
-              alt=""
-            />
-          )}
-          <div>
-            {place.photos?.[2] && (
-              <img
-                className="aspect-square object-cover"
-                style={{ position: "relative", top: ".1rem" }}
-                src={"http://localhost:4000/uploads/" + place.photos[2]}
-                alt=""
-              />
-            )}
+          <div className="my-4">
+            <h2 className="font-semibold text-2xl">Description</h2>
+            {place.description}
           </div>
+          Check-in: {place.checkIn} <br />
+          Check-out: {place.checkOut} <br />
+          Max number of guests: {place.maxGuests}
         </div>
+        <div>
+          <BookingWidget place={place} />
+        </div>
+      </div>
+      <div className="bg-white -mx-8 px-8 py-8 border-t"></div>
+      <div>
+        <h2 className="font-semibold text-2xl">Extra Info</h2>
+      </div>
+      <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
+        {place.extraInfo}
       </div>
     </div>
   );
