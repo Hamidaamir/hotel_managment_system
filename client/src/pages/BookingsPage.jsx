@@ -23,7 +23,7 @@ export default function BookingsPage() {
             <Link
               to={`/account/bookings/${booking._id}`}
               key={booking.id}
-              className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden"
+              className="m-6 flex gap-4 bg-gray-200 rounded-2xl overflow-hidden"
             >
               <div className="w-48">
                 Idher hotel ki pinned picture honi chahiya thi lekin nae a rahi
