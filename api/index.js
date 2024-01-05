@@ -292,6 +292,21 @@ app.get("/bookings", async (req, res) => {
   res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
+// Search places by address
+app.get("/search-places", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const results = await Place.find({
+      address: { $regex: new RegExp(query, "i") },
+    });
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Internal server error");
+  }
+});
+
 const server = app.listen(4000);
 
 module.exports = { app, server };
