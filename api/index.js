@@ -35,9 +35,12 @@ app.use(
 
 function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
-    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      resolve(userData);
+    jwt.verify(req.cookies.token, jwtSecret, {}, (err, userData) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(userData);
+      }
     });
   });
 }
@@ -309,4 +312,5 @@ app.get("/search-places", async (req, res) => {
 
 const server = app.listen(4000);
 
-module.exports = { app, server };
+// Export the app, server, and getUserDataFromReq function
+module.exports = { app, server, getUserDataFromReq, jwtSecret };
