@@ -142,6 +142,7 @@ app.post("/upload-by-link", async (req, res) => {
   } else {
     // Handle normal URL using image-downloader
     try {
+      // Handle normal URL using image-downloader
       const newName = "photo" + Date.now() + ".jpeg";
       await imageDownloader.image({
         url: link,
@@ -149,7 +150,8 @@ app.post("/upload-by-link", async (req, res) => {
       });
       res.json(newName);
     } catch (error) {
-      res.status(500).json("Error downloading image");
+      console.error("Error downloading image:", error);
+      res.status(404).json("Image not found");
     }
   }
 });
