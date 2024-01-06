@@ -86,7 +86,14 @@ export default function BookingWidget({ place }) {
           <input
             type="number"
             value={numberOfGuests}
-            onChange={(ev) => setNumberOfGuests(ev.target.value)}
+            onChange={(ev) => {
+              const enteredValue = parseInt(ev.target.value, 10);
+
+              // Check if the entered value is non-negative before updating state
+              if (!isNaN(enteredValue) && enteredValue >= 0) {
+                setNumberOfGuests(enteredValue);
+              }
+            }}
           />
         </div>
 
