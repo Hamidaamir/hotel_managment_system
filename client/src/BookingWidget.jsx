@@ -63,27 +63,30 @@ export default function BookingWidget({ place }) {
         Price: PKR {place.price} / per night
       </div>
       <div className="border rounded-2xl mt-4">
-        <div className="flex">
-          <div className="py-3 px-4">
+        <div className="flex flex-col">
+          <div className="flex gap-2 py-3 px-4">
             <label>Check in:</label>
             <input
+              className="border-2"
               type="date"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
             />
           </div>
-          <div className="py-3 px-4 border-l">
+          <div className="flex gap-2 py-3 px-4 border-t">
             <label>Check out:</label>
             <input
+              className="border-2"
               type="date"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
             />
           </div>
         </div>
-        <div className="py-3 px-4 border-t">
+        <div className="flex gap-2 py-3 px-4 border-t">
           <label>Number of guests:</label>
           <input
+            className="border-2"
             type="number"
             value={numberOfGuests}
             onChange={(ev) => {
@@ -98,19 +101,23 @@ export default function BookingWidget({ place }) {
         </div>
 
         {numberOfNights > 0 && (
-          <div className="py-3 px-4 border-t">
-            <label>Full Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(ev) => setName(ev.target.value)}
-            />
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={(ev) => setPhone(ev.target.value)}
-            />
+          <div className="p-0 m-0">
+            <div className="py-3 px-4 border-t">
+              <label>Full Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(ev) => setName(ev.target.value)}
+              />
+            </div>
+            <div className="py-3 px-4 border-t">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(ev) => setPhone(ev.target.value)}
+              />
+            </div>
           </div>
         )}
       </div>
