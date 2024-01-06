@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User.js");
-const Booking = require("./models/Booking.js");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
 const Place = require("./models/Place.js");
+const Booking = require("./models/Booking.js");
 const fs = require("fs");
 require("dotenv").config();
 const app = express();
@@ -35,7 +35,7 @@ app.use(
 
 function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
-    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+    jwt.verify(req.cookies.token, jwtSecret, {}, (err, userData) => {
       if (err) {
         reject(err);
       } else {
@@ -142,6 +142,7 @@ app.post("/upload-by-link", async (req, res) => {
   } else {
     // Handle normal URL using image-downloader
     try {
+      // Handle normal URL using image-downloader
       const newName = "photo" + Date.now() + ".jpeg";
       await imageDownloader.image({
         url: link,
@@ -149,7 +150,8 @@ app.post("/upload-by-link", async (req, res) => {
       });
       res.json(newName);
     } catch (error) {
-      res.status(500).json("Error downloading image");
+      console.error("Error downloading image:", error);
+      res.status(404).json("Image not found");
     }
   }
 });
@@ -295,6 +297,22 @@ app.get("/bookings", async (req, res) => {
   res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
+// Search places by address
+app.get("/search-places", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const results = await Place.find({
+      address: { $regex: new RegExp(query, "i") },
+    });
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Internal server error");
+  }
+});
+
 const server = app.listen(4000);
 
-module.exports = { app, server };
+// Export the app, server, and getUserDataFromReq function
+module.exports = { app, server, getUserDataFromReq, jwtSecret };

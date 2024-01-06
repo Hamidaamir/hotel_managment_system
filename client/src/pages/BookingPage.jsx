@@ -1,9 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import AddressLink from "./AddressLink";
-import PlaceGallery from "./PlaceGallery";
-import BookingDates from "./BookingDates";
+import axios from "axios";
+import { useState } from "react";
+import AddressLink from "../AddressLink";
+import PlaceGallery from "../PlaceGallery";
+import BookingDates from "../BookingDates";
 
 export default function BookingPage() {
   const { id } = useParams();
@@ -14,9 +15,6 @@ export default function BookingPage() {
         const foundBooking = response.data.find(({ _id }) => _id === id);
         if (foundBooking) {
           setBooking(foundBooking);
-        } else {
-          // Handle the case where the booking is not found
-          console.error("Booking not found");
         }
       });
     }
@@ -25,7 +23,6 @@ export default function BookingPage() {
   if (!booking) {
     return "";
   }
-
   return (
     <div className="my-8">
       <h1 className="text-3xl">{booking.place.title}</h1>
@@ -36,8 +33,8 @@ export default function BookingPage() {
           <BookingDates booking={booking} />
         </div>
         <div className="bg-primary p-6 text-white rounded-2xl">
-          <div>Total price</div>
-          <div className="text-3xl">PKR{booking.price}</div>
+          <div>Total Price</div>
+          <div className="text-3xl">PKR {booking.price}</div>
         </div>
       </div>
       <PlaceGallery place={booking.place} />

@@ -36,8 +36,8 @@ function App() {
             element={<PlacesFormPage />}
           ></Route>
           <Route path="/place/:id" element={<PlacePage />}></Route>
-          <Route path="/account/bookings" element={<BookingsPage />} />
-          <Route path="/account/bookings/:id" element={<BookingPage />} />
+          <Route path="/account/bookings" element={<BookingsPage />}></Route>
+          <Route path="/account/bookings/:id" element={<BookingPage />}></Route>
         </Route>
       </Routes>
     </UserContextProvider>
