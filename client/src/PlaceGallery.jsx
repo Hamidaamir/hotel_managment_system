@@ -4,22 +4,13 @@ export default function PlaceGallery({ place }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
   if (showAllPhotos) {
     return (
-<<<<<<< HEAD:client/src/pages/PlaceGallery.jsx
-      <div className="inset-0 text-black min-h-screen">
-        <div className="bg-white p-8 grid gap-4">
-=======
       <div className="absolute inset-0 bg-black text- white min-h-screen">
         <div className="bg-black p-8 grid gap-4">
->>>>>>> 6bbfc94a7ba794ec7c0cdf94c4c7ae54f3201d9d:client/src/PlaceGallery.jsx
           <div>
             <h2 className="text-3xl mr-48">Photos of {place.title}</h2>
             <button
               onClick={() => setShowAllPhotos(false)}
-<<<<<<< HEAD:client/src/pages/PlaceGallery.jsx
-              className="fixed right-56 top-56 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
-=======
               className=" fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
->>>>>>> 6bbfc94a7ba794ec7c0cdf94c4c7ae54f3201d9d:client/src/PlaceGallery.jsx
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -38,18 +29,9 @@ export default function PlaceGallery({ place }) {
             </button>
           </div>
           {place?.photos?.length > 0 &&
-<<<<<<< HEAD:client/src/pages/PlaceGallery.jsx
-            place.photos.map((photo, index) => (
-              <div className="w-96" key={index}>
-                <img
-                  src={"http://localhost:4000/uploads/" + photo}
-                  alt={`Photo ${index}`}
-                />
-=======
             place.photos.map((photo) => (
               <div>
                 <img src={"http://localhost:4000/uploads/" + photo} alt="" />
->>>>>>> 6bbfc94a7ba794ec7c0cdf94c4c7ae54f3201d9d:client/src/PlaceGallery.jsx
               </div>
             ))}
         </div>
