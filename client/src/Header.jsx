@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
@@ -7,6 +7,7 @@ export default function Header() {
 
   return (
     <header className="flex justify-between items-center">
+      {/* Logo and Site Name */}
       <Link to={"/"} className="flex items-center gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,31 +25,8 @@ export default function Header() {
         </svg>
         <span className="font-bold text-xl">RESORTS CONNECT</span>
       </Link>
-      {/* <div className="flex gap-2 border border-gray-300 rounded-full p-2 px-4 shadow-md shadow grey-300">
-        
-        <input
-          type="text"
-          placeholder="Search..."
-          className="border-none focus:outline-none w-48"
-        />
-        <button className="bg-primary text-white p-1 rounded-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </button>
-      </div> */}
 
+      {/* User Account Section */}
       <Link
         to={user ? "/account" : "/Login"}
         className="flex items-center gap-2 border border-gray-300 rounded-full p-2 px-4"

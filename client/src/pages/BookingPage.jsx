@@ -24,20 +24,30 @@ export default function BookingPage() {
     return "";
   }
   return (
-    <div className="my-8">
-      <h1 className="text-3xl">{booking.place.title}</h1>
-      <AddressLink className="my-2 block">{booking.place.address}</AddressLink>
-      <div className="bg-gray-200 p-6 my-6 rounded-2xl flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl mb-4">Your booking information:</h2>
-          <BookingDates booking={booking} />
+    <div className="my-4 p-6 -mx-8 px-8 pt-8 bg-gray-100 rounded-2xl grid">
+      <h1 className="text-3xl mb-4">Your booking information:</h1>
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl">{booking.place.title}</h2>
+            <div className="ml-3">
+              <AddressLink className="w-32 my-1 block">
+                {booking.place.address}
+              </AddressLink>
+            </div>
+            <div className="ml-3">
+              <BookingDates booking={booking} />
+            </div>
+          </div>
+          <div className="bg-primary p-6 text-white rounded-2xl">
+            <div>Total Price</div>
+            <div className="text-3xl">PKR {booking.price}</div>
+          </div>
         </div>
-        <div className="bg-primary p-6 text-white rounded-2xl">
-          <div>Total Price</div>
-          <div className="text-3xl">PKR {booking.price}</div>
+        <div className="ml-3">
+          <PlaceGallery place={booking.place} />
         </div>
       </div>
-      <PlaceGallery place={booking.place} />
     </div>
   );
 }
