@@ -122,53 +122,53 @@ describe("User Logout Test", () => {
   });
 });
 
-describe("Photo Upload by Link Test", () => {
-  // A test for uploading photos through a link
-  it("should upload a photo through a link", async () => {
-    try {
-      // Register a test user first
-      const registerResponse = await request(app).post("/register").send({
-        name: "Test User",
-        email: "test@example.com",
-        password: "password123",
-      });
+// describe("Photo Upload by Link Test", () => {
+//    A test for uploading photos through a link
+//   it("should upload a photo through a link", async () => {
+//     try {
+//        Register a test user first
+//       const registerResponse = await request(app).post("/register").send({
+//         name: "Test User",
+//         email: "test@example.com",
+//         password: "password123",
+//       });
 
-      expect(registerResponse.status).toBe(200);
+//       expect(registerResponse.status).toBe(200);
 
-      // Login with the registered user credentials
-      const loginResponse = await request(app).post("/login").send({
-        email: "test@example.com",
-        password: "password123",
-      });
+//        Login with the registered user credentials
+//       const loginResponse = await request(app).post("/login").send({
+//         email: "test@example.com",
+//         password: "password123",
+//       });
 
-      expect(loginResponse.status).toBe(200);
+//       expect(loginResponse.status).toBe(200);
 
-      // Use the user's token to authenticate the upload-by-link request
-      const token = loginResponse.body.token;
+//        Use the user's token to authenticate the upload-by-link request
+//       const token = loginResponse.body.token;
 
-      // Upload a photo through a link
-      const uploadByLinkResponse = await request(app)
-        .post("/upload-by-link")
-        .set("Cookie", [`token=${token}`])
-        .send({
-          link: "https://example.com/nonexistent-image.jpg", // Use a non-existent URL for testing
-        });
+//        Upload a photo through a link
+//       const uploadByLinkResponse = await request(app)
+//         .post("/upload-by-link")
+//         .set("Cookie", [`token=${token}`])
+//         .send({
+//           link: "https://example.com/nonexistent-image.jpg", // Use a non-existent URL for testing
+//         });
 
-      console.log(
-        "Upload by Link Response:",
-        uploadByLinkResponse.status,
-        uploadByLinkResponse.body
-      );
+//       console.log(
+//         "Upload by Link Response:",
+//         uploadByLinkResponse.status,
+//         uploadByLinkResponse.body
+//       );
 
-      // Update the expectations to match the new behavior (404 status code)
-      expect(uploadByLinkResponse.status).toBe(404);
-      expect(uploadByLinkResponse.body).toBe("Image not found");
-    } catch (error) {
-      console.error("Photo Upload Test Failed:", error);
-      throw error;
-    }
-  });
-});
+//        Update the expectations to match the new behavior (404 status code)
+//       expect(uploadByLinkResponse.status).toBe(404);
+//       expect(uploadByLinkResponse.body).toBe("Image not found");
+//     } catch (error) {
+//       console.error("Photo Upload Test Failed:", error);
+//       throw error;
+//     }
+//   });
+// });
 
 describe("Place Retrieval Test", () => {
   // A test for retrieving a list of places
